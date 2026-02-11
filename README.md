@@ -29,6 +29,14 @@ The interface is built around four working views that support day-to-day field a
 - Visit planning workflow that reserves sample quantities from inventory.
 - Follow-up recommendation logic to separate visited stores (`Call`) from unvisited stores (`Visit`).
 
+## Tech Stack
+
+- React 18
+- Vite
+- Material UI (`@mui/material`, `@mui/icons-material`)
+- Recharts
+- Papa Parse
+
 ## Why This Project Exists
 
 This project demonstrates how raw commercial activity data can be converted into practical sales operations tooling:
@@ -45,10 +53,9 @@ The app source is located in `vault-dashboard/`.
 - App entry: `vault-dashboard/src/App.jsx`
 - Primary views: `vault-dashboard/src/components/`
 
-## Run Locally
+## Quick Start Demo
 
-```bash
-cd vault-dashboard
-npm install
-npm run dev
-```
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Run the development server: `npm start`
+4. Open http://localhost:3000
