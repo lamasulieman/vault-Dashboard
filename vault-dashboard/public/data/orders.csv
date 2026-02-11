@@ -1,0 +1,7 @@
+id,name__v,created_date__v,product__c.name__v,quantity__c,total_price__c,store__c.name__v,salesperson__c.name__v,profit__c,profitpercentage__c
+VKH000000003009,1st fp order,2025-10-30T10:26:04.000Z,Red Box,1,10.000000,Fashion Point,Lama Suleiman,5,0.50
+VKH000000003010,2nd fp order,2025-10-30T10:26:30.000Z,Blue Box,2,24.000000,Fashion Point,Lama Suleiman,12,0.50
+VKH000000003011,gadgets,2025-10-30T10:27:26.000Z,Green Box,3,24.000000,Gadget Store,John Smith,9,0.38
+VKH000000003012,designers 1st,2025-10-28T10:27:53.000Z,Red Box,1,10.000000,Designer Footwear,mini case salesrep 1,5,0.50
+VKH000000003013,artisans order,2025-10-25T10:29:01.000Z,Blue Box,2,24.000000,Artisan Crafts,Lama Suleiman,12,0.50
+VKH000000003014,artisans green,2025-10-22T10:30:40.000Z,Green Box,1,8.000000,Artisan Crafts,John Smith,3,0.38

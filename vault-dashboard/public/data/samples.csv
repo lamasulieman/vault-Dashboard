@@ -1,0 +1,8 @@
+id,name__v,created_date__v,product__c.name__v,quantity__c,salesperson__c.name__v,totalcost__c,store__c.name__v
+VKG000000002001,february's samples,2025-10-28T14:07:16.000Z,Red Box,5,Lama Suleiman,25,Fashion Point
+VKG000000002002,October's samples,2025-10-19T09:54:10.000Z,Blue Box,3,John Smith,18,Beauty Supplies
+VKG000000002003,kids month boxes,2025-10-18T09:54:59.000Z,Green Box,4,John Smith,20,Gadget Store
+VKG000000002004,west London boxes,2025-10-17T09:55:30.000Z,Green Box,5,John Smith,25,Artisan Crafts
+VKG000000002005,intro sample,2025-10-14T09:56:16.000Z,Green Box,7,mini case salesrep 1,35,Designer Footwear
+VKG000000002006,intro set 2,2025-10-14T09:56:36.000Z,Red Box,5,mini case salesrep 1,25,Designer Footwear
+VKG000000002007,blue samples for fp,2025-10-12T09:57:57.000Z,Blue Box,3,Lama Suleiman,18,Fashion Point
