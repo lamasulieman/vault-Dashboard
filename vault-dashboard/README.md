@@ -1,27 +1,48 @@
-# Vault Dashboard
+# Vault Dashboard App
 
-Vault Dashboard is a React + Vite analytics app for tracking store performance, sales team activity, and visit planning using CSV data exports.
+This app turns Vault CSV exports into an interactive operational dashboard for management visibility, sales-team coaching, and visit planning.
 
-## Overview
+## Core User Experience
 
-The app is organized into four tabs:
+The app is intentionally organized as four focused workspaces:
 
-- `Management`: high-level KPIs (sales, samples, profit, best store, best-selling box) and store-level breakdowns.
-- `Sales Team`: rep-level performance metrics, conversion rates, bonus calculation, and sample distribution insights.
-- `Store Analytics`: conversion vs. profit visualization and store prioritization status.
-- `Visits`: visit/call suggestions, personal monthly stats, sample inventory, and a visit planner workflow.
+- `Management`: high-level business pulse with KPI cards and store performance tables.
+- `Sales Team`: rep-level accountability metrics and coaching signals.
+- `Store Analytics`: conversion and profitability analysis with status-based segmentation.
+- `Visits`: practical planning tools for follow-up actions and sample inventory control.
 
-## Tech Stack
+The UI uses a dashboard-first layout with card sections, data tables, and charts so a user can move from summary to detail quickly.
 
-- React 18
-- Vite
-- Material UI (`@mui/material`, `@mui/icons-material`)
-- Recharts
-- Papa Parse (CSV parsing)
+## Functionality By View
 
-## Data Sources
+### Management
 
-CSV files are read from `public/data/` at runtime:
+- Consolidates key numbers: total samples, total sales, average profit, best store, and best-selling box.
+- Provides store-level breakdowns for both sample mix and revenue composition.
+- Supports detail popups to inspect distribution by product without leaving the table context.
+
+### Sales Team
+
+- Combines merged order/sample data into per-rep performance rows.
+- Calculates visits, conversion rate, revenue contribution, and bonus potential.
+- Highlights top performers and reps that need support.
+- Shows sales vs sample activity in chart form for easy comparison.
+
+### Store Analytics
+
+- Measures conversion and average profit margin by store.
+- Classifies store health into `Thriving`, `Growing`, or `Declining`.
+- Visualizes store priority in a scatter chart and mirrors the same logic in a sortable table.
+
+### Visits
+
+- Shows personal monthly field stats and dynamic sample inventory.
+- Suggests whether each store should receive a follow-up `Call` or an introductory `Visit`.
+- Supports scheduling upcoming visits and reserving planned sample quantities.
+
+## Data Inputs
+
+CSV files are loaded from `public/data/`:
 
 - `orders.csv`
 - `samples.csv`
@@ -29,68 +50,25 @@ CSV files are read from `public/data/` at runtime:
 - `users.csv`
 - `products.csv`
 
-The dashboard logic merges records by store, product, and salesperson to compute KPIs and performance metrics.
+The merge layer links store, product, and salesperson records to drive all KPIs and visualizations.
 
-## Getting Started
+## Visual And Interaction Design
 
-### 1. Install dependencies
+- Top tab navigation for fast context switching.
+- Consistent color semantics for status and priority.
+- Dialogs/tooltips for drill-down detail with minimal navigation overhead.
+- Chart + table pairing for both quick trend reading and exact value lookup.
+
+## Run The App
 
 ```bash
 npm install
-```
-
-### 2. Start development server
-
-```bash
 npm run dev
 ```
 
-### 3. Open in browser
+Open the URL printed by Vite (commonly `http://localhost:5173`).
 
-Use the local URL printed by Vite (usually `http://localhost:5173`).
+## Notes
 
-## Available Scripts
-
-- `npm run dev`: start local dev server
-- `npm run build`: create production build
-- `npm run preview`: preview production build locally
-- `npm run lint`: run ESLint checks
-
-## Project Structure
-
-```text
-vault-dashboard/
-  public/
-    data/
-      orders.csv
-      samples.csv
-      stores.csv
-      users.csv
-      products.csv
-  src/
-    components/
-      Dashboard.jsx
-      SalesTeam.jsx
-      StoreAnalytics.jsx
-      Visits.jsx
-    utils/
-      loadVaultData.js
-    App.jsx
-    main.jsx
-    index.css
-```
-
-## Troubleshooting
-
-- `404 (Not Found)` on assets:
-  Run with `npm run dev` instead of opening `index.html` directly in the browser.
-- `404` on CSV files:
-  Confirm filenames in `public/data/` match requested paths in code.
-  Example: if code references `/data/products.csv`, the file in `public/data/` must be named `products.csv`.
-
-## Future Improvements
-
-- Add TypeScript and stricter typing for CSV schemas.
-- Add unit tests for data merge and metric calculation logic.
-- Add filters for time range, store, product, and salesperson.
-- Add CSV upload support from the UI.
+- Run through Vite dev server; opening `index.html` directly can cause asset 404s.
+- Ensure CSV file names in `public/data/` match the paths referenced in source code.
