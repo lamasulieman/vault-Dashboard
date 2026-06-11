@@ -1,6 +1,6 @@
 # Vault Dashboard App
 
-This app turns Vault CSV exports into an interactive operational dashboard for management visibility, sales-team coaching, and visit planning.
+This app turns Vault CSV exports into an interactive operational dashboard for management visibility, sales-team coaching, and visit planning , watch a live demo on : https://youtu.be/1FlHVLCouYM
 
 ## Core User Experience
 
