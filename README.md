@@ -54,7 +54,8 @@ The app source is located in `vault-dashboard/`.
 - Primary views: `vault-dashboard/src/components/`
 
 ## Quick Start Demo
-
+watch a demo on : https://youtu.be/1FlHVLCouYM 
+OR 
 1. Clone the repository
 2. Install dependencies: `npm install`
 3. Run the development server: `npm start`
