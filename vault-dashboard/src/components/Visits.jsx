@@ -35,6 +35,7 @@ export default function Visits() {
   const [selectedStore, setSelectedStore] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [plannedSamples, setPlannedSamples] = useState({});
+  const [formError, setFormError] = useState("");
   const [inventory, setInventory] = useState([
     { product: "Blue Box", color: "primary", available: 80 },
     { product: "Red Box", color: "error", available: 60 },
@@ -165,8 +166,12 @@ const myStats = {
   };
 
   const handleSchedule = () => {
-    if (!selectedStore || !selectedDate) return;
+    if (!selectedStore || !selectedDate) {
+      setFormError("Please choose a store and date before confirming your visit.");
+      return;
+    }
 
+    setFormError("");
     const selectedStoreData = stores.find(
       (s) => s["name__v"] === selectedStore
     );
@@ -394,7 +399,15 @@ const myStats = {
       </Card>
 
       {/* Schedule Visit Modal */}
-      <Dialog open={openPlan} onClose={() => setOpenPlan(false)} fullWidth maxWidth="sm">
+      <Dialog
+        open={openPlan}
+        onClose={() => {
+          setOpenPlan(false);
+          setFormError("");
+        }}
+        fullWidth
+        maxWidth="sm"
+      >
         <DialogTitle>Schedule New Visit</DialogTitle>
         <DialogContent>
           <TextField
@@ -432,6 +445,7 @@ const myStats = {
                   type="number"
                   label={i.product}
                   fullWidth
+                  value={plannedSamples[i.product] ?? ""}
                   inputProps={{ min: 0, max: i.available }}
                   onChange={(e) => handlePlanSampleChange(i.product, e.target.value)}
                 />
@@ -439,11 +453,18 @@ const myStats = {
             ))}
           </Grid>
 
+          {formError && (
+            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+              {formError}
+            </Typography>
+          )}
+
           <Button
             variant="contained"
             color="primary"
             sx={{ mt: 3 }}
             fullWidth
+            disabled={!selectedStore || !selectedDate}
             onClick={handleSchedule}
           >
             Confirm Visit
