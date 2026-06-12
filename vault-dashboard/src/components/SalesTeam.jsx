@@ -73,7 +73,7 @@ export default function SalesTeam() {
     const repMap = {};
     const repVisitDates = {};
 
-    // ✅ Count unique visit days from samples.csv
+    // Count unique visit days from samples.csv.
     samples.forEach((s) => {
       const rep = s["salesperson__c.name__v"] || "Unknown";
       const date = s["created_date__v"]
@@ -111,7 +111,7 @@ export default function SalesTeam() {
 
     // Merge everything
     const team = Object.values(repMap).map((rep) => {
-      const visits = repVisitDates[rep.name]?.size || 0; // ✅ Actual unique day visits
+      const visits = repVisitDates[rep.name]?.size || 0;
       const bonus = rep.profit > 0 ? (rep.profit * 0.2).toFixed(2) : 0;
       const conversion =
         rep.samples > 0 ? ((rep.sales / rep.samples) * 100).toFixed(1) : 0;
@@ -184,7 +184,7 @@ export default function SalesTeam() {
           <Card elevation={3} sx={{ borderRadius: 4 }}>
             <CardContent>
               <Typography variant="h6" fontWeight={600} gutterBottom>
-                🏆 Top Performers
+                Top Performers
               </Typography>
               {topPerformers.map((t, idx) => (
                 <Typography key={t.name} sx={{ mb: 1.2 }}>
@@ -200,7 +200,7 @@ export default function SalesTeam() {
           <Card elevation={3} sx={{ borderRadius: 4 }}>
             <CardContent>
               <Typography variant="h6" fontWeight={600} gutterBottom>
-                📚 Needs Attention
+                Needs Attention
               </Typography>
               {needsAttention.map((t) => (
                 <Typography key={t.name} sx={{ mb: 1.2 }}>

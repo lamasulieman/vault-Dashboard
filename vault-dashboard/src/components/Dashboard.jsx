@@ -18,7 +18,6 @@ import {
   IconButton,
   Tooltip,
   Box,
-  Divider,
 } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
@@ -71,7 +70,6 @@ export default function Dashboard() {
     }
 
     const storeMap = {};
-    const productTotals = {};
     const productRevenueTotals = {}; 
 
 
@@ -117,7 +115,6 @@ export default function Dashboard() {
       storeMap[store].products[product] = storeMap[store].products[product] || { samples: 0, revenue: 0 };
       storeMap[store].products[product].samples += qty;
 
-      productTotals[product] = (productTotals[product] || 0) + qty;
     });
 
     const stores = Object.values(storeMap);
@@ -126,7 +123,7 @@ export default function Dashboard() {
     const avgProfit = (stores.reduce((sum, s) => sum + s.profit, 0) / stores.length).toFixed(2);
     const bestStore = stores.sort((a, b) => b.profit - a.profit)[0]?.name || "—";
 
-    // ✅ Best Selling Box based on total sales revenue
+    // Best-selling box is based on total sales revenue.
     const [bestBox, bestRevenue] =
       Object.entries(productRevenueTotals).sort((a, b) => b[1] - a[1])[0] || [];
 

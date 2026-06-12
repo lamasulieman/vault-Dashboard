@@ -27,6 +27,7 @@ export default function Visits() {
   const [merged, setMerged] = useState([]);
   const [stores, setStores] = useState([]);
   const [samples, setSamples] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Planner states
@@ -41,8 +42,6 @@ export default function Visits() {
     { product: "Red Box", color: "error", available: 60 },
     { product: "Green Box", color: "success", available: 70 },
   ]);
-
-  const currentUser = "Lama Suleiman";
 
   useEffect(() => {
     (async () => {
@@ -59,15 +58,30 @@ export default function Visits() {
         });
       };
 
-      parseCSV("/data/stores.csv", (storeData) => {
-        setStores(storeData);
-        parseCSV("/data/samples.csv", (sampleData) => {
-          setSamples(sampleData.filter((r) => r["store__c.name__v"]));
-          setLoading(false);
+      parseCSV("/data/users.csv", (userData) => {
+        setUsers(userData.filter((user) => user["name__v"]));
+        parseCSV("/data/stores.csv", (storeData) => {
+          setStores(storeData);
+          parseCSV("/data/samples.csv", (sampleData) => {
+            setSamples(sampleData.filter((r) => r["store__c.name__v"]));
+            setLoading(false);
+          });
         });
       });
     })();
   }, []);
+
+  const currentUser = useMemo(() => {
+    const sampleReps = new Set(
+      samples.map((sample) => sample["salesperson__c.name__v"]).filter(Boolean)
+    );
+
+    return (
+      users.find((user) => sampleReps.has(user["name__v"]))?.["name__v"] ||
+      samples.find((sample) => sample["salesperson__c.name__v"])?.["salesperson__c.name__v"] ||
+      "Current User"
+    );
+  }, [samples, users]);
 
   const metrics = useMemo(() => {
     if (stores.length === 0) {
@@ -78,35 +92,30 @@ export default function Visits() {
       };
     }
 
-// --- Compute my stats ---
-const mine = merged.filter((d) => d.salesperson === currentUser);
+    const mine = merged.filter((d) => d.salesperson === currentUser);
+    const visitSet = new Set();
 
-// Build visit set using samples.csv since that's where the visit dates exist
-const visitSet = new Set();
+    samples.forEach((s) => {
+      const rep = s["salesperson__c.name__v"] || s["salesperson__c"] || "";
+      const store = s["store__c.name__v"]?.trim() || "";
+      const created = s["created_date__v"];
+      if (rep === currentUser && store && created) {
+        const day = new Date(created).toISOString().split("T")[0];
+        visitSet.add(`${rep}-${store}-${day}`);
+      }
+    });
 
-samples.forEach((s) => {
-  const rep = s["salesperson__c.name__v"] || s["salesperson__c"] || "";
-  const store = s["store__c.name__v"]?.trim() || "";
-  const created = s["created_date__v"];
-  if (rep === currentUser && store && created) {
-    const day = new Date(created).toISOString().split("T")[0];
-    visitSet.add(`${rep}-${store}-${day}`);
-  }
-});
+    const totalVisits = visitSet.size;
+    const totalSamples = mine.reduce((s, d) => s + (d.samplesGiven || 0), 0);
+    const totalSales = mine.reduce((s, d) => s + (d.quantitySold || 0), 0);
+    const totalProfit = mine.reduce((s, d) => s + (d.profit || 0), 0);
 
-const totalVisits = visitSet.size;
-const totalSamples = mine.reduce((s, d) => s + (d.samplesGiven || 0), 0);
-const totalSales = mine.reduce((s, d) => s + (d.quantitySold || 0), 0);
-const totalProfit = mine.reduce((s, d) => s + (d.profit || 0), 0);
-
-const myStats = {
-  visits: totalVisits,
-  samplesGiven: totalSamples,
-  salesClosed: totalSales,
-  bonus: (totalProfit * 0.2).toFixed(2),
-};
-
-
+    const myStats = {
+      visits: totalVisits,
+      samplesGiven: totalSamples,
+      salesClosed: totalSales,
+      bonus: (totalProfit * 0.2).toFixed(2),
+    };
 
     // --- VISIT / CALL LOGIC ---
     const visitedNames = new Set(
@@ -161,13 +170,25 @@ const myStats = {
 
   // --- Planner Logic ---
   const handlePlanSampleChange = (product, value) => {
-    const val = Math.max(0, parseInt(value || 0, 10));
+    const item = inventory.find((stock) => stock.product === product);
+    const available = item?.available ?? 0;
+    const val = Math.min(available, Math.max(0, parseInt(value || 0, 10)));
+
     setPlannedSamples((prev) => ({ ...prev, [product]: val }));
   };
 
   const handleSchedule = () => {
     if (!selectedStore || !selectedDate) {
       setFormError("Please choose a store and date before confirming your visit.");
+      return;
+    }
+
+    const overReserved = inventory.find(
+      (item) => (plannedSamples[item.product] || 0) > item.available
+    );
+
+    if (overReserved) {
+      setFormError(`Only ${overReserved.available} ${overReserved.product} samples are available.`);
       return;
     }
 

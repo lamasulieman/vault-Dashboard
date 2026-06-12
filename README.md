@@ -2,6 +2,8 @@
 
 Vault Dashboard is a multi-view analytics web app for tracking retail sample distribution, sales performance, and store follow-up planning from Vault CSV exports.
 
+Watch a recorded demo on : https://youtu.be/1FlHVLCouYM 
+
 ## What The App Does
 
 The interface is built around four working views that support day-to-day field and management decisions:
@@ -58,5 +60,14 @@ watch a demo on : https://youtu.be/1FlHVLCouYM
 OR 
 1. Clone the repository
 2. Install dependencies: `npm install`
-3. Run the development server: `npm start`
-4. Open http://localhost:3000
+3. Run the development server: `npm run dev`
+4. Open the local URL printed by Vite, commonly http://localhost:5173
+
+The root package delegates commands to the app in `vault-dashboard/`, so the same commands work from the repository root:
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run lint
+```
